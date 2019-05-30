@@ -1,11 +1,13 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
@@ -22,9 +24,7 @@ import org.controlsfx.control.spreadsheet.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Controller {
     public TextField textFileBIO;
@@ -33,19 +33,15 @@ public class Controller {
     public int mRowCount = 99;
     public int mColumnCount = 26;
     public AnchorPane archBIO;
-    public Label sredZnsch;
-
-
+    public DataSet dataSet;
 
     public void initialize(){
 
         initSpreadsheet();
-
-        AnchorPane.setTopAnchor(bioSpreadsheetView, 50.0);
-        AnchorPane.setLeftAnchor(bioSpreadsheetView, 10.0);
-        AnchorPane.setRightAnchor(bioSpreadsheetView, 10.0);
+        AnchorPane.setTopAnchor(bioSpreadsheetView, 0.0);
+        AnchorPane.setLeftAnchor(bioSpreadsheetView, 5.0);
+        AnchorPane.setRightAnchor(bioSpreadsheetView, 5.0);
         AnchorPane.setBottomAnchor(bioSpreadsheetView, 50.0);
-
         archBIO.getChildren().addAll(bioSpreadsheetView);
 
     }
@@ -91,23 +87,15 @@ public class Controller {
        /* String filePath = "file1.txt";
         Controller chartReader = new Controller();
         int[][] myArray = chartReader.getArrayFromFile(filePath);
-        int arrWidth = myArray.length;
-        int arrLength = myArray[0].length;*/
+        */
 
-     /*   for(int i=0; i<arrWidth; i++) {
-            for (int j = 0; j < arrLength; j++) {
-                bioSpreadsheetView.getGrid().setCellValue(i,j,myArray[i][j]);
-                System.out.print(myArray[i][j] + " ");
-            }
-            System.out.println();
-        }*/
 
         File file = new File("test1.arff");
-        DataSet dataSet  = ARFFLoader.loadArffFile(file);
+         dataSet  = ARFFLoader.loadArffFile(file);
         // We specify '0' as the class we would like to make the target class.
         ClassificationDataSet cDataSet =  new ClassificationDataSet(dataSet, 0);
 
-
+        // Лист для предпоказа в коман. строку, данных
         ArrayList<Vec> arrayListTEST = new ArrayList<>();
 
         Classifier classifier =  new NaiveBayes();
@@ -116,70 +104,44 @@ public class Controller {
         for(int i =  0; i <  dataSet.getSampleSize(); i++)
         {
             DataPoint dataPoint = cDataSet.getDataPoint(i); //берем i-ую запись из файла
-            arrayListTEST.add(dataPoint.getNumericalValues()); //добавляем i-ую запись в коллекцию векторов
-            System.out.println( i +  "|" +  arrayListTEST.get(i));//
+            arrayListTEST.add(dataPoint.getNumericalValues());//кладем ее в лист
+            System.out.println( i +  "|" +  arrayListTEST.get(i));// выводим
             while(j!=dataPoint.numNumericalValues()) {
-                bioSpreadsheetView.getGrid().setCellValue(i, j, dataPoint.getNumericalValues().get(j)); //запись в таблицу
+                bioSpreadsheetView.getGrid().setCellValue(i, j, dataPoint.getNumericalValues().get(j)); // добавление записи в таблицу
                 j++;
             }
             j=0;
         }
+    }
 
-              // создаём коллекцию для хранения суммирующих векторов
-        ArrayList<Double> sumVectors = null;
-        if(arrayListTEST.size() != 0){ // если векторы вообще существуют
-            sumVectors = new ArrayList<Double>(Collections.<Double>nCopies(arrayListTEST.get(0).length(), 0.0)); // так как все векторы одинаковой длины (т.е. в твоем случае это 4-ре)
-// то инициализируем коллекцию размерность в 4 элемента,и задаём начальное значение в 0
-        }
-        // for each по всем векторам
-        for(Vec v: arrayListTEST)
-            for (int i = 0; i < v.length(); i++) { // перебираем все измеренения конкретного вектора
-                sumVectors.set(i, sumVectors.get(i) + v.get(i)); // добавляем к значениям, хранящимся в колекции финальных значений
+    public void Stat_Aver_Med_Max_Min(ActionEvent event) {
 
-            }
-        for(Vec v: arrayListTEST)
-            for (int i = 0; i < v.length(); i++) {
-                sumVectors.set(i, sumVectors.get(i)/v.length());
-
-            }
-
-        sredZnsch.setText(sumVectors.toString()); // просто вывод на экран, для теста
-        System.out.println("НИЖЕ ДАТАСЕТ ИЗ ПЕРВОГО КОНТРОЛЛЕРА, ТО ЧТО ПЕРЕДАЕМ:");
-        System.out.println(dataSet.getDataMatrix());
-
-
-
-
-
-        FXMLLoader loader = new FXMLLoader(this.getClass().getClassLoader().getResource("sample/sampleRezult.fxml"));
-        StatRezultController controller = new StatRezultController(dataSet);
-        loader.setController(controller);
-        Parent mainCallWindowFXML = null;
+        if(dataSet==null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Предупреждение: ");
+            alert.setHeaderText(null);
+            alert.setContentText("Файл не был загружен.");
+            alert.showAndWait();
+            return;
+        }else
+            {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sampleRezult.fxml"));
+        Parent root = null;
         try {
-            mainCallWindowFXML = loader.load();
-            Stage stage =new Stage();
-            stage.setScene(new Scene(mainCallWindowFXML, 800, 600));
-            stage.show(); //показ сцены
+            root = fxmlLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
+            Platform.exit();
+            return;
         }
-
-
-      /*  int k=0;
-        int j = 0;
-        for (int i = 0; i < testDataSet.getSampleSize(); i++) {
-            DataPoint dataPoint = testDataSet.getDataPoint(i);k++;
-            while(j!=dataPoint.numNumericalValues()) {
-                bioSpreadsheetView.getGrid().setCellValue(i, j, dataPoint.getNumericalValues().get(j));
-                System.out.println(i+" "+j+" "+dataPoint.getNumericalValues().get(j));
-                j++;
+        Stage st = new Stage();
+        st.setResizable(false);
+        st.setTitle("Среднее/Медиана/Минимальное/Максимальное");
+        st.setScene(new Scene(root, 700, 450));
+        StatRezultController statRezultController = fxmlLoader.getController(); // получаем контроллер второй страницы
+        statRezultController.sendData(dataSet); // передаём туда данные
+        statRezultController.init(); // инициализиуем страницу (работаем с данными)
+        st.show();
             }
-            j=0;
-        }
-*/
-
-
-
-
     }
 }
