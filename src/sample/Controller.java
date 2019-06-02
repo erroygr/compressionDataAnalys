@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -143,5 +142,41 @@ public class Controller {
         statRezultController.init(); // инициализиуем страницу (работаем с данными)
         st.show();
             }
+    }
+
+    public void AnalComponent(ActionEvent event) {
+
+
+        if(dataSet==null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Предупреждение: ");
+            alert.setHeaderText(null);
+            alert.setContentText("Файл не был загружен.");
+            alert.showAndWait();
+            return;
+        }else
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("analysComponent.fxml"));
+            Parent root = null;
+            try {
+                root = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Platform.exit();
+                return;
+            }
+            Stage st = new Stage();
+            st.setResizable(false);
+            st.setTitle("Анализ главный компонентов компонентов (PCA)");
+            st.setScene(new Scene(root, 700, 450));
+            AnalysComponent analysComponent = fxmlLoader.getController(); // получаем контроллер второй страницы
+            analysComponent.sendData(dataSet); // передаём туда данные
+            analysComponent.init(); // инициализиуем страницу (работаем с данными)
+            st.show();
+        }
+
+
+
+
     }
 }

@@ -20,6 +20,7 @@
           <Menu mnemonicParsing="false" text="Статистические методы">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#Stat_Aver_Med_Max_Min" text="Среднее/медиана/максимальное/минимальное" />
+                  <MenuItem mnemonicParsing="false" onAction="#AnalComponent" text="Анализ главных компонент" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="О программе">
