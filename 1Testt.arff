@@ -1,0 +1,25 @@
+@RELATION datacompr
+
+@ATTRIBUTE Time REAL
+@ATTRIBUTE Action STRING
+@ATTRIBUTE Action_Changed STRING
+@ATTRIBUTE VerticalPress_kPa REAL
+@ATTRIBUTE PorePress_kPa REAL
+@ATTRIBUTE VerticalDeformation_mm REAL
+@ATTRIBUTE VerticalPress_MPa REAL
+@ATTRIBUTE PorePress_MPa REAL
+@ATTRIBUTE VerticalStrain REAL
+@ATTRIBUTE TarDeformation_mm REAL
+@ATTRIBUTE Stage STRING
+
+@DATA
+0.001,nullR,nullR,0,0,0,0,0,0,0,Пуск
+0.001,nullR,True,0,0,0,0,0,0,0,Пуск
+0.001,Start,nullR,0,0,0,0,0,0,0,Пуск
+0.001,Start,True,0,0,0,0,0,0,0,Компрессия
+0.001,LoadStage,nullR,0,0,0,0,0,0,0,Компрессия
+15.503,LoadStage,nullR,7.064259,0,-0.005284309,0.006622743,0,-0.0002113724,0,Компрессия
+45.648,LoadStage,nullR,5.73971,0,0,0.006181227,0,0,0,Компрессия
+105.764,LoadStage,nullR,5.73971,0,-0.005284309,0.005298194,0,0,0,Компрессия
+163.681,LoadStage,True,5.73971,0,0.005284309,0.005298194,0,0.0002113724,0,Компрессия
+163.681,Unload,nullR,5.73971,0,0.005284309,0.005298194,0,0.0002113724,0,Компрессия

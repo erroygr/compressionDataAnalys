@@ -1,0 +1,11 @@
+Time	Action	Action_Changed	VerticalPress_kPa	PorePress_kPa	VerticalDeformation_mm	VerticalPress_MPa	PorePress_MPa	VerticalStrain	TarDeformation_mm	Stage	
+0,001			0	0	0	0	0	0	0	Пуск	
+0,001		True	0	0	0	0	0	0	0	Пуск	
+0,001	Start		0	0	0	0	0	0	0	Пуск	
+0,001	Start	True	0	0	0	0	0	0	0	Компрессия	
+0,001	LoadStage		0	0	0	0	0	0	0	Компрессия	
+15,503	LoadStage		7,064259	0	-0,005284309	0,006622743	0	-0,0002113724	0	Компрессия	
+45,648	LoadStage		5,73971	0	0	0,006181227	0	0	0	Компрессия	
+105,764	LoadStage		5,73971	0	-0,005284309	0,005298194	0	0	0	Компрессия	
+163,681	LoadStage	True	5,73971	0	0,005284309	0,005298194	0	0,0002113724	0	Компрессия	
+163,681	Unload		5,73971	0	0,005284309	0,005298194	0	0,0002113724	0	Компрессия	

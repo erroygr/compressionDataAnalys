@@ -1,182 +1,192 @@
 package sample;
 
+import CompressionData.CompressionData;
+import CompressionData.ReadFromFile;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import jsat.DataSet;
-import jsat.classifiers.ClassificationDataSet;
-import jsat.classifiers.Classifier;
-import jsat.classifiers.DataPoint;
-import jsat.classifiers.bayesian.NaiveBayes;
-import jsat.io.ARFFLoader;
-import jsat.linear.Vec;
-import org.controlsfx.control.spreadsheet.*;
-
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.stream.Stream;
+
+import javafx.scene.control.Alert;
+
 
 public class Controller {
     public TextField textFileBIO;
-    public GridBase bioGridBase;
-    public SpreadsheetView bioSpreadsheetView;
-    public int mRowCount = 99;
-    public int mColumnCount = 26;
     public AnchorPane archBIO;
-    public DataSet dataSet;
 
-    public void initialize(){
+    public TableColumn porepressMPaId;
+    public TableColumn actionId;
+    public TableColumn verticalStrainId;
+    public TableColumn verticalPressKPAId;
+    public TableColumn porePressKPAId;
+    public TableColumn varticalDeformationId;
+    public TableColumn verticalpressMPaId;
+    public TableColumn tarDeformationId;
+    public TableColumn stageId;
+    public TableColumn timeId;
+    public TableColumn actionChangedId;
 
-        initSpreadsheet();
-        AnchorPane.setTopAnchor(bioSpreadsheetView, 0.0);
-        AnchorPane.setLeftAnchor(bioSpreadsheetView, 5.0);
-        AnchorPane.setRightAnchor(bioSpreadsheetView, 5.0);
-        AnchorPane.setBottomAnchor(bioSpreadsheetView, 50.0);
-        archBIO.getChildren().addAll(bioSpreadsheetView);
+    public TableView<CompressionData> tableCompression;
+    public ComboBox cellName;
+    public ComboBox dataCell;
 
+
+    private Controller controllerParent;
+    private FilterData filterDataController;
+
+
+    private ArrayList<CompressionData> compressionDataArrayList;
+    private ObservableList<CompressionData> compressionDataObservableList;
+    private ArrayList<CompressionData> compressionDataArrayListFilter;
+
+    public FilterData getFilterDataController(){
+        return filterDataController;
+    }
+
+    public Controller getControllerParent() {
+        return controllerParent;
+    }
+
+    public void setControllerParent(Controller controllerParent) {
+        this.controllerParent = controllerParent;
     }
 
 
-    private void initSpreadsheet() {
-        bioGridBase = new GridBase(mRowCount, mColumnCount);
-        ObservableList<ObservableList<SpreadsheetCell>> rows = FXCollections.observableArrayList();
-        for (int row = 0; row < bioGridBase.getRowCount(); ++row) {
-            final ObservableList<SpreadsheetCell> list = FXCollections.observableArrayList();
-            for (int column = 0; column < bioGridBase.getColumnCount(); ++column) {
-                list.add(SpreadsheetCellType.STRING.createCell(row, column, 1, 1, ""));
-            }
-            rows.add(list);
+    public void initialize() {
+        timeId.setCellValueFactory(new PropertyValueFactory<CompressionData, Double>("Time"));
+        actionId.setCellValueFactory(new PropertyValueFactory<CompressionData, String>("Action"));
+        actionChangedId.setCellValueFactory(new PropertyValueFactory<CompressionData, String>("Action_Changed"));
+        verticalPressKPAId.setCellValueFactory(new PropertyValueFactory<CompressionData, Double>("VerticalPress_kPa"));
+        porePressKPAId.setCellValueFactory(new PropertyValueFactory<CompressionData, Double>("PorePress_kPa"));
+        varticalDeformationId.setCellValueFactory(new PropertyValueFactory<CompressionData, Double>("VerticalDeformation_mm"));
+        verticalpressMPaId.setCellValueFactory(new PropertyValueFactory<CompressionData, Double>("VerticalPress_MPa"));
+        porepressMPaId.setCellValueFactory(new PropertyValueFactory<CompressionData, Double>("PorePress_MPa"));
+        verticalStrainId.setCellValueFactory(new PropertyValueFactory<CompressionData, Double>("VerticalStrain"));
+        tarDeformationId.setCellValueFactory(new PropertyValueFactory<CompressionData, Double>("TarDeformation_mm"));
+        stageId.setCellValueFactory(new PropertyValueFactory<CompressionData, String>("Stage"));
+
+        ObservableList<String> cellNames = FXCollections.observableArrayList("Action", "Action_Changed", "Stage");
+        ObservableList<String> dataCellAction = FXCollections.observableArrayList("Start", "LoadStage", "NULL");
+        ObservableList<String> dataCellAction_Changed = FXCollections.observableArrayList("True", "False", "NULL");
+        ObservableList<String> dataCellStage = FXCollections.observableArrayList("����", "��������������");
+
+         cellName.setItems(cellNames);
+         dataCell.setItems(dataCellAction);
+
+
+
+
+    }
+
+    public void init(){
+        System.out.println("����� � ������� �����������??");
+        tableCompression.getItems().clear();
+        compressionDataObservableList= FXCollections.observableArrayList(compressionDataArrayListFilter);
+        tableCompression.setItems(compressionDataObservableList);
+        tableCompression.refresh();
+
+    }
+
+    public void sendDataController(ArrayList<CompressionData> compressionData){
+        compressionDataArrayListFilter=compressionData;
+        System.out.println("���� �� ��� �������� ����� � ������� ����������:");
+        for(int i=0;i<compressionDataArrayListFilter.size();i++) {
+            System.out.println(compressionDataArrayListFilter.get(i).outDataCompr());
         }
-        bioGridBase.setRows(rows);
-        bioSpreadsheetView = new SpreadsheetView(bioGridBase);
-        bioSpreadsheetView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        for (SpreadsheetColumn c : bioSpreadsheetView.getColumns()) c.setPrefWidth(90);
+
+        init();
+    }
+
+    public void loadfile(ActionEvent event) throws IOException {
+
+        String filePath = "Test.1.log";
+
+        Scanner scanner = new Scanner(new File(filePath));
+        ReadFromFile readFromFile = new ReadFromFile(scanner);
+
+        compressionDataArrayList =  readFromFile.parserToCompressionData();
+
+        compressionDataObservableList= FXCollections.observableArrayList(compressionDataArrayList);
+         tableCompression.setItems(compressionDataObservableList);
+
     }
 
 
-
-    //Запись значения из тексбокса в ячейку в фокусе
-    public void inputCallRollBIO(ActionEvent event) {
-        int focusedRow = bioSpreadsheetView.getSelectionModel().getFocusedCell().getRow();
-        int focusedColumn = bioSpreadsheetView.getSelectionModel().getFocusedCell().getColumn();
-        bioSpreadsheetView.getGrid().setCellValue(focusedRow, focusedColumn, textFileBIO.getText());
-        textFileBIO.setText("");
-    }
+    public void getFilterCompressionData(ActionEvent event) throws IOException {
 
 
-
-
-    public void loadfile(ActionEvent event) {
-
-        // FileChooser fileChooser = new FileChooser();
-        //fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt", "*.txt"));
-        //File loadImageFile = fileChooser.showOpenDialog(archBIO.getScene().getWindow());
-        // URL url = loadImageFile.toURI().toURL();
-        //Path path = Paths.get(loadImageFile.toURI().toURL().toString());
-        // TEXT_TEST.load(url.toString());
-       /* String filePath = "file1.txt";
-        Controller chartReader = new Controller();
-        int[][] myArray = chartReader.getArrayFromFile(filePath);
-        */
-
-
-        File file = new File("test1.arff");
-         dataSet  = ARFFLoader.loadArffFile(file);
-        // We specify '0' as the class we would like to make the target class.
-        ClassificationDataSet cDataSet =  new ClassificationDataSet(dataSet, 0);
-
-        // Лист для предпоказа в коман. строку, данных
-        ArrayList<Vec> arrayListTEST = new ArrayList<>();
-
-        Classifier classifier =  new NaiveBayes();
-        classifier.train(cDataSet);
-        int j = 0;
-        for(int i =  0; i <  dataSet.getSampleSize(); i++)
-        {
-            DataPoint dataPoint = cDataSet.getDataPoint(i); //берем i-ую запись из файла
-            arrayListTEST.add(dataPoint.getNumericalValues());//кладем ее в лист
-            System.out.println( i +  "|" +  arrayListTEST.get(i));// выводим
-            while(j!=dataPoint.numNumericalValues()) {
-                bioSpreadsheetView.getGrid().setCellValue(i, j, dataPoint.getNumericalValues().get(j)); // добавление записи в таблицу
-                j++;
-            }
-            j=0;
-        }
-    }
-
-    public void Stat_Aver_Med_Max_Min(ActionEvent event) {
-
-        if(dataSet==null){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Предупреждение: ");
+        if (compressionDataObservableList.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("��������������: ");
             alert.setHeaderText(null);
-            alert.setContentText("Файл не был загружен.");
+            alert.setContentText("���� �� ��� ��������.");
             alert.showAndWait();
             return;
-        }else
-            {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sampleRezult.fxml"));
-        Parent root = null;
-        try {
-            root = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Platform.exit();
-            return;
-        }
-        Stage st = new Stage();
-        st.setResizable(false);
-        st.setTitle("Среднее/Медиана/Минимальное/Максимальное");
-        st.setScene(new Scene(root, 700, 450));
-        StatRezultController statRezultController = fxmlLoader.getController(); // получаем контроллер второй страницы
-        statRezultController.sendData(dataSet); // передаём туда данные
-        statRezultController.init(); // инициализиуем страницу (работаем с данными)
-        st.show();
-            }
-    }
-
-    public void AnalComponent(ActionEvent event) {
-
-
-        if(dataSet==null){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Предупреждение: ");
-            alert.setHeaderText(null);
-            alert.setContentText("Файл не был загружен.");
-            alert.showAndWait();
-            return;
-        }else
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("analysComponent.fxml"));
-            Parent root = null;
-            try {
-                root = fxmlLoader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Platform.exit();
-                return;
-            }
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("filterData.fxml"));
+            Parent root = fxmlLoader.load();
             Stage st = new Stage();
             st.setResizable(false);
-            st.setTitle("Анализ главный компонентов компонентов (PCA)");
-            st.setScene(new Scene(root, 700, 450));
-            AnalysComponent analysComponent = fxmlLoader.getController(); // получаем контроллер второй страницы
-            analysComponent.sendData(dataSet); // передаём туда данные
-            analysComponent.init(); // инициализиуем страницу (работаем с данными)
+            st.setTitle("������");
+            st.setScene(new Scene(root, 697, 247));
+
+            filterDataController=fxmlLoader.getController();
+            filterDataController.setControllerParent(this);
+            filterDataController.sendData(compressionDataArrayList); // ������� ���� ������
             st.show();
+
+
+        }
+
+    }
+
+    public void filterss(ActionEvent event) {
+          ArrayList<CompressionData> compressionDataArrayList22 = new ArrayList<CompressionData>();
+          String cellName1;
+          String dataCell1;
+        cellName1= (String) cellName.getValue();
+        dataCell1= (String) dataCell.getValue();
+        System.out.println(cellName1);
+        System.out.println(dataCell1);
+
+        for(int i=0;i<compressionDataArrayList.size();i++) {
+            if(dataCell1.equals(compressionDataArrayList.get(i).getAction())){
+                compressionDataArrayList22.add(compressionDataArrayList.get(i));
+            }
+        }
+
+        for(int i=0;i<compressionDataArrayList22.size();i++) {
+            System.out.println(compressionDataArrayList22.get(i).outDataCompr());
+        }
+
+        tableCompression.getItems().clear();
+
+        compressionDataObservableList= FXCollections.observableArrayList(compressionDataArrayList22);
+        tableCompression.setItems(compressionDataObservableList);
+
+
         }
 
 
 
 
+
+
     }
-}
+

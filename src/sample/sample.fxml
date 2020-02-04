@@ -1,26 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <TextField fx:id="textFileBIO" layoutX="14.0" layoutY="27.0" onAction="#inputCallRollBIO" prefHeight="25.0" prefWidth="256.0" />
-      <AnchorPane fx:id="archBIO" layoutX="7.0" layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" />
-      <MenuBar prefHeight="25.0" prefWidth="600.0">
+      <TextField fx:id="textFileBIO" layoutX="14.0" layoutY="27.0" prefHeight="25.0" prefWidth="256.0" />
+      <AnchorPane fx:id="archBIO" layoutX="7.0" layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="994.0">
+         <children>
+            <TableView fx:id="tableCompression" prefHeight="500.0" prefWidth="994.0">
+              <columns>
+                <TableColumn fx:id="timeId" prefWidth="43.0" text="Time" />
+                <TableColumn fx:id="actionId" prefWidth="63.0" text="Action" />
+                <TableColumn fx:id="actionChangedId" prefWidth="100.0" text="Action_Changed" />
+                <TableColumn fx:id="verticalPressKPAId" prefWidth="109.0" text="VerticalPress_kPa" />
+                <TableColumn fx:id="porePressKPAId" prefWidth="72.0" text="PorePress_kPa" />
+                <TableColumn fx:id="varticalDeformationId" prefWidth="121.0" text="VerticalDeformation_mm" />
+                <TableColumn fx:id="verticalpressMPaId" prefWidth="108.0" text="VerticalPress_MPa" />
+                <TableColumn fx:id="porepressMPaId" prefWidth="96.0" text="PorePress_MPa" />
+                <TableColumn fx:id="verticalStrainId" prefWidth="89.0" text="VerticalStrain" />
+                <TableColumn fx:id="tarDeformationId" prefWidth="130.0" text="TarDeformation_mm" />
+                <TableColumn fx:id="stageId" minWidth="0.0" prefWidth="62.0" text="Stage" />
+              </columns>
+            </TableView>
+         </children></AnchorPane>
+      <MenuBar prefHeight="25.0" prefWidth="1000.0">
         <menus>
           <Menu mnemonicParsing="false" text="Файл">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#loadfile" text="Загрузить" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Статистические методы">
+          <Menu mnemonicParsing="false" text="Метода анализа">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#Stat_Aver_Med_Max_Min" text="Среднее/медиана/максимальное/минимальное" />
-                  <MenuItem mnemonicParsing="false" onAction="#AnalComponent" text="Анализ главных компонент" />
+              <MenuItem mnemonicParsing="false" text="Статистический анализ" />
+                <MenuItem mnemonicParsing="false" text="Анализ главных компонент" />
+                <MenuItem mnemonicParsing="false" text="Компрессионный анализ" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="О программе">
@@ -30,5 +45,9 @@
           </Menu>
         </menus>
       </MenuBar>
+      <Button layoutX="282.0" layoutY="27.0" mnemonicParsing="false" onAction="#getFilterCompressionData" prefHeight="25.0" prefWidth="96.0" text="Фильтрация" />
+      <ComboBox fx:id="cellName" layoutX="402.0" layoutY="27.0" prefWidth="150.0" promptText="Столбец" />
+      <ComboBox fx:id="dataCell" layoutX="576.0" layoutY="27.0" prefWidth="150.0" promptText="Данные столбца" />
+      <Button layoutX="749.0" layoutY="27.0" mnemonicParsing="false" text="Button" onAction="#filterss"/>
    </children>
 </AnchorPane>
