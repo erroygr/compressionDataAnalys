@@ -55,6 +55,7 @@ public class Controller {
     private ObservableList<CompressionData> compressionDataObservableList;
     private ArrayList<CompressionData> compressionDataArrayListFilter;
 
+    //Геттеры сеттеры для получения ссылки на контроллеры
     public FilterData getFilterDataController(){
         return filterDataController;
     }
@@ -81,6 +82,8 @@ public class Controller {
         tarDeformationId.setCellValueFactory(new PropertyValueFactory<CompressionData, Double>("TarDeformation_mm"));
         stageId.setCellValueFactory(new PropertyValueFactory<CompressionData, String>("Stage"));
 
+
+        //НИЖЕ УСТАРЕЛО
         ObservableList<String> cellNames = FXCollections.observableArrayList("Action", "Action_Changed", "Stage");
         ObservableList<String> dataCellAction = FXCollections.observableArrayList("Start", "LoadStage", "NULL");
         ObservableList<String> dataCellAction_Changed = FXCollections.observableArrayList("True", "False", "NULL");
@@ -88,49 +91,39 @@ public class Controller {
 
          cellName.setItems(cellNames);
          dataCell.setItems(dataCellAction);
-
-
-
-
     }
 
+    //Метод обновления таблицы после фильтрации
     public void init(){
         System.out.println("ЗАШЛИ в ФУНКЦИЮ ОБНОВНЛЕНИЯ??");
         tableCompression.getItems().clear();
         compressionDataObservableList= FXCollections.observableArrayList(compressionDataArrayListFilter);
         tableCompression.setItems(compressionDataObservableList);
         tableCompression.refresh();
-
     }
 
+    //Метод получение ОТФИЛЬТРОВАННЫХ данных из FilterData
     public void sendDataController(ArrayList<CompressionData> compressionData){
         compressionDataArrayListFilter=compressionData;
         System.out.println("НИЖЕ то что передали НАЗАД В ГЛАВНЫЙ КОНТРОЛЛЕР:");
         for(int i=0;i<compressionDataArrayListFilter.size();i++) {
             System.out.println(compressionDataArrayListFilter.get(i).outDataCompr());
         }
-
         init();
     }
 
+    //Метод загрузки файла - забиндин на один файл --доработать для выбора пользователем файла
     public void loadfile(ActionEvent event) throws IOException {
-
         String filePath = "Test.1.log";
-
         Scanner scanner = new Scanner(new File(filePath));
         ReadFromFile readFromFile = new ReadFromFile(scanner);
-
         compressionDataArrayList =  readFromFile.parserToCompressionData();
-
         compressionDataObservableList= FXCollections.observableArrayList(compressionDataArrayList);
          tableCompression.setItems(compressionDataObservableList);
-
     }
 
-
+    //Метод вызова окна фильтрации, передачи в другой контроллер данных
     public void getFilterCompressionData(ActionEvent event) throws IOException {
-
-
         if (compressionDataObservableList.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Предупреждение: ");
@@ -145,17 +138,17 @@ public class Controller {
             st.setResizable(false);
             st.setTitle("Фильтр");
             st.setScene(new Scene(root, 697, 247));
-
             filterDataController=fxmlLoader.getController();
             filterDataController.setControllerParent(this);
-            filterDataController.sendData(compressionDataArrayList); // передаём туда данные
+          //  filterDataController.sendData(compressionDataArrayList); // передаём туда данные
+            filterDataController.initialize(compressionDataArrayList);
+          //  filterDataController.initComboBox();
             st.show();
 
-
         }
-
     }
 
+    //Метод фильтрации -УСТАРЕЛ
     public void filterss(ActionEvent event) {
           ArrayList<CompressionData> compressionDataArrayList22 = new ArrayList<CompressionData>();
           String cellName1;
@@ -170,23 +163,12 @@ public class Controller {
                 compressionDataArrayList22.add(compressionDataArrayList.get(i));
             }
         }
-
         for(int i=0;i<compressionDataArrayList22.size();i++) {
             System.out.println(compressionDataArrayList22.get(i).outDataCompr());
         }
-
         tableCompression.getItems().clear();
-
         compressionDataObservableList= FXCollections.observableArrayList(compressionDataArrayList22);
         tableCompression.setItems(compressionDataObservableList);
-
-
         }
-
-
-
-
-
-
     }
 
