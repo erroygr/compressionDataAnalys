@@ -1,6 +1,7 @@
 package sample;
 
 import CompressionData.CompressionData;
+import FilterDataStrategyClass.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,22 +15,22 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FilterData  {
+public class FilterDataController {
 
 
     public AnchorPane panelFilter;
     public Button butClose;
     public ComboBox<String> idOperator;
-    public ComboBox idName2;
-    public ComboBox idName1;
-    public ComboBox idCondition2;
+    public ComboBox<String> idName2;
+    public ComboBox<String> idName1;
+    public ComboBox<String> idCondition2;
     public ComboBox<String> idCondition1;
-    public ComboBox idValue2;
+    public ComboBox<String> idValue2;
     public ComboBox<String> idValue1;
 
     private  ArrayList<CompressionData> dataCompression_;
     private Controller controllerParent;
-    private FilterData filterDataController;
+    private FilterDataController filterDataController;
 
 
     ArrayList<String> arrTime = new ArrayList<>();
@@ -54,7 +55,7 @@ public class FilterData  {
        this.controllerParent = controllerParent;
     }
     //Геттер  для ссылки на этот контроллер (?)
-    public FilterData getFilterDataController() {
+    public FilterDataController getFilterDataController() {
         return filterDataController;
     }
 
@@ -212,27 +213,58 @@ public class FilterData  {
 
     //Кнопка ОКЕЙ- фильтруем данные по выбранным параметрам, передаем данные в Сontroller, закрываем окно
     public void getOkFilter(ActionEvent event) throws IOException {
-
+        FilterDataStrategy filterDataStrategy = null;
+        String nameColumn;
+        String nameCondition;
+        String nameValue;
+        ArrayList<CompressionData> compressionDataArrayListFilter = new ArrayList<CompressionData>();
         ArrayList<CompressionData> compressionDataArrayList2 = new ArrayList<CompressionData>();
-        String cellName;
-        double dataCell;
-        cellName= (String) idName1.getValue();
-        dataCell= Double.parseDouble(idValue1.getValue());
-        System.out.println(cellName);
-        System.out.println(dataCell);
+        nameColumn= idName1.getValue();
+        nameCondition= idCondition1.getValue();
+        nameValue=idValue1.getValue();
 
+        System.out.println("То что выбрал пользователь в комбобоксах:");
+        System.out.println(nameColumn);
+        System.out.println(nameCondition);
+        System.out.println(nameValue);
 
-        for(int i=0;i<dataCompression_.size();i++) {
-            if(dataCell== dataCompression_.get(i).getTime()){
-                compressionDataArrayList2.add(dataCompression_.get(i));
-            }
+        if(nameColumn=="Time"){
+            filterDataStrategy=new FilterDataTimeStrategy(dataCompression_,nameColumn,nameCondition,nameValue);
         }
-        System.out.println("Результат фильтрации:");
-        for(int i=0;i<compressionDataArrayList2.size();i++) {
-            System.out.println(compressionDataArrayList2.get(i).outDataCompr());
+        if(nameColumn=="Action"){
+            filterDataStrategy=new FilterDataActionStrategy(dataCompression_,nameColumn,nameCondition,nameValue);
+        }
+        if(nameColumn=="Action_Changed"){
+            filterDataStrategy=new FilterDataActionChangedStrategy(dataCompression_,nameColumn,nameCondition,nameValue);
+        }
+        if(nameColumn=="VerticalPress_kPa"){
+            filterDataStrategy=new FilterDataVerticalPresskPaStrategy(dataCompression_,nameColumn,nameCondition,nameValue);
+        }
+        if(nameColumn=="PorePress_kPa"){
+            filterDataStrategy=new FilterDataPorePresskPaStrategy(dataCompression_,nameColumn,nameCondition,nameValue);
+        }
+        if(nameColumn=="VerticalDeformation_mm"){
+            filterDataStrategy=new FilterDataVerticalDeformationmmStrategy(dataCompression_,nameColumn,nameCondition,nameValue);
+        }
+        if(nameColumn=="VerticalPress_MPa"){
+            filterDataStrategy=new FilterDataVerticalPressMPaStrategy(dataCompression_,nameColumn,nameCondition,nameValue);
+        }
+        if(nameColumn=="PorePress_MPa"){
+            filterDataStrategy=new FilterDataPorePressMPaStrategy(dataCompression_,nameColumn,nameCondition,nameValue);
+        }
+        if(nameColumn=="VerticalStrain"){
+            filterDataStrategy=new FilterDataVerticalStrainStrategy(dataCompression_,nameColumn,nameCondition,nameValue);
+        }
+        if(nameColumn=="TarDeformation_mm"){
+            filterDataStrategy=new FilterDataTarDeformationmmStrategy(dataCompression_,nameColumn,nameCondition,nameValue);
+        }
+        if(nameColumn=="Stage"){
+            filterDataStrategy=new FilterDataStageStrategy(dataCompression_,nameColumn,nameCondition,nameValue);
         }
 
-        if (compressionDataArrayList2.isEmpty()) {
+        compressionDataArrayListFilter=filterDataStrategy.goFilterData();
+
+        if (compressionDataArrayListFilter.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Предупреждение: ");
             alert.setHeaderText(null);
@@ -242,7 +274,7 @@ public class FilterData  {
         } else {
             // FXMLLoader fxmlLoader = new FXMLLoader();
             controllerParent.getControllerParent(); // получаем контроллер
-            controllerParent.sendDataController(compressionDataArrayList2);
+            controllerParent.sendDataController(compressionDataArrayListFilter);
             // controllerParent.initialize();
             //  fxmlLoaderController.init(); // инициализиуем страницу (работаем с данными)
         }

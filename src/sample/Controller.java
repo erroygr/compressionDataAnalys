@@ -2,12 +2,10 @@ package sample;
 
 import CompressionData.CompressionData;
 import CompressionData.ReadFromFile;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,12 +14,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.ResourceBundle;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 import javafx.scene.control.Alert;
 
@@ -48,7 +42,7 @@ public class Controller {
 
 
     private Controller controllerParent;
-    private FilterData filterDataController;
+    private FilterDataController filterDataController;
 
 
     private ArrayList<CompressionData> compressionDataArrayList;
@@ -56,7 +50,7 @@ public class Controller {
     private ArrayList<CompressionData> compressionDataArrayListFilter;
 
     //Геттеры сеттеры для получения ссылки на контроллеры
-    public FilterData getFilterDataController(){
+    public FilterDataController getFilterDataController(){
         return filterDataController;
     }
 
