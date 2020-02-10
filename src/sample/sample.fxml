@@ -46,8 +46,5 @@
         </menus>
       </MenuBar>
       <Button layoutX="282.0" layoutY="27.0" mnemonicParsing="false" onAction="#getFilterCompressionData" prefHeight="25.0" prefWidth="96.0" text="Фильтрация" />
-      <ComboBox fx:id="cellName" layoutX="402.0" layoutY="27.0" prefWidth="150.0" promptText="Столбец" />
-      <ComboBox fx:id="dataCell" layoutX="576.0" layoutY="27.0" prefWidth="150.0" promptText="Данные столбца" />
-      <Button layoutX="749.0" layoutY="27.0" mnemonicParsing="false" text="Button" onAction="#filterss"/>
    </children>
 </AnchorPane>

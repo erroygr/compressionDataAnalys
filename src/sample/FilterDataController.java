@@ -20,13 +20,30 @@ public class FilterDataController {
 
     public AnchorPane panelFilter;
     public Button butClose;
-    public ComboBox<String> idOperator;
-    public ComboBox<String> idName2;
+
+    public ComboBox<String> idOperator1;
+    public ComboBox<String> idOperator2;
+    public ComboBox<String> idOperator3;
+    public ComboBox<String> idOperator4;
+
     public ComboBox<String> idName1;
-    public ComboBox<String> idCondition2;
+    public ComboBox<String> idName2;
+    public ComboBox<String> idName3;
+    public ComboBox<String> idName4;
+    public ComboBox<String> idName5;
+
     public ComboBox<String> idCondition1;
-    public ComboBox<String> idValue2;
+    public ComboBox<String> idCondition2;
+    public ComboBox<String> idCondition3;
+    public ComboBox<String> idCondition4;
+    public ComboBox<String> idCondition5;
+
     public ComboBox<String> idValue1;
+    public ComboBox<String> idValue2;
+    public ComboBox<String> idValue3;
+    public ComboBox<String> idValue4;
+    public ComboBox<String> idValue5;
+
 
     private  ArrayList<CompressionData> dataCompression_;
     private Controller controllerParent;
@@ -78,7 +95,6 @@ public class FilterDataController {
     }
     //Метод для инициализации комбобоксов и обновления (УСТАРЕЛА---Перешла в initialize)
     public void initComboBox(){
-
         ArrayList<String> arrTime = new ArrayList<>();
         ArrayList<String> arrAction = new ArrayList<>();
         ArrayList<String> arrAction_Cha = new ArrayList<>();
@@ -188,11 +204,45 @@ public class FilterDataController {
         }
 
         idName1.setItems(nameColumn);
+        idName2.setItems(nameColumn);
+        idName3.setItems(nameColumn);
+        idName4.setItems(nameColumn);
+        idName5.setItems(nameColumn);
 
-         idName1.valueProperty().addListener((obs, oldValue, newValue) -> {
+        idName2.setOnAction(event -> {
+                    if(idName2.getValue() != null) {
+                        System.out.println("ЗАШЛИ В ВИЗИБЛ КОМБОБОКСОВ?");
+                        idOperator2.setVisible(true);
+                        idName3.setVisible(true);
+                        idCondition3.setVisible(true);
+                        idValue3.setVisible(true);
+                    }
+        });
+
+        idName3.setOnAction(event -> {
+            if(idName3.getValue() != null) {
+                System.out.println("ЗАШЛИ В ВИЗИБЛ КОМБОБОКСОВ?");
+                idOperator3.setVisible(true);
+                idName4.setVisible(true);
+                idCondition4.setVisible(true);
+                idValue4.setVisible(true);
+            }
+        });
+
+        idName4.setOnAction(event -> {
+            if(idName4.getValue() != null) {
+                System.out.println("ЗАШЛИ В ВИЗИБЛ КОМБОБОКСОВ?");
+                idOperator4.setVisible(true);
+                idName5.setVisible(true);
+                idCondition5.setVisible(true);
+                idValue5.setVisible(true);
+            }
+        });
+
+        idName1.valueProperty().addListener((obs, oldValue, newValue) -> {
             ObservableList<String> list = FXCollections.observableArrayList(valueNameColumn.get(newValue));
             if(list !=null){
-                 idValue1.setDisable(false);
+                idValue1.setDisable(false);
                 idValue1.setItems(list);
             }else {
                 idValue1.getItems().clear();
@@ -200,15 +250,80 @@ public class FilterDataController {
             }
         });
 
+        idName2.valueProperty().addListener((obs, oldValue, newValue) -> {
+            ObservableList<String> list = FXCollections.observableArrayList(valueNameColumn.get(newValue));
+            if (list != null) {
+                idValue2.setDisable(false);
+                idValue2.setItems(list);
+            } else {
+                idValue2.getItems().clear();
+                idValue2.setDisable(true);
+            }
+        });
 
+        idName3.valueProperty().addListener((obs, oldValue, newValue)-> {
+            ObservableList<String> list = FXCollections.observableArrayList(valueNameColumn.get(newValue));
+            if (list != null) {
+                idValue3.setDisable(false);
+                idValue3.setItems(list);
+            } else {
+                idValue3.getItems().clear();
+                idValue3.setDisable(true);
+            }
+        });
+
+        idName4.valueProperty().addListener((obs, oldValue, newValue)-> {
+            ObservableList<String> list = FXCollections.observableArrayList(valueNameColumn.get(newValue));
+            if (list != null) {
+                idValue4.setDisable(false);
+                idValue4.setItems(list);
+            } else {
+                idValue4.getItems().clear();
+                idValue4.setDisable(true);
+            }
+        });
+
+        idName5.valueProperty().addListener((obs, oldValue, newValue)-> {
+            ObservableList<String> list = FXCollections.observableArrayList(valueNameColumn.get(newValue));
+            if (list != null) {
+                idValue5.setDisable(false);
+                idValue5.setItems(list);
+            } else {
+                idValue5.getItems().clear();
+                idValue5.setDisable(true);
+            }
+        });
+
+        idOperator1.setItems(dataOperation);
+        idOperator2.setItems(dataOperation);
+        idOperator3.setItems(dataOperation);
+        idOperator4.setItems(dataOperation);
         idCondition1.setItems(dataCondition);
-        idOperator.setItems(dataOperation);
+        idCondition2.setItems(dataCondition);
+        idCondition3.setItems(dataCondition);
+        idCondition4.setItems(dataCondition);
+        idCondition5.setItems(dataCondition);
 
-      //  idValue1.setItems(..);
     }
 
     //Кнопка очищения
     public void getClear(ActionEvent event) {
+        idOperator2.setVisible(false);
+        idOperator3.setVisible(false);
+        idOperator4.setVisible(false);
+
+        idName3.setVisible(false);
+        idName4.setVisible(false);
+        idName5.setVisible(false);
+
+        idCondition3.setVisible(false);
+        idCondition4.setVisible(false);
+        idCondition5.setVisible(false);
+
+        idValue3.setVisible(false);
+        idValue4.setVisible(false);
+        idValue5.setVisible(false);
+
     }
 
     //Кнопка ОКЕЙ- фильтруем данные по выбранным параметрам, передаем данные в Сontroller, закрываем окно
@@ -284,5 +399,6 @@ public class FilterDataController {
 
 
     }
+
 
 }

@@ -37,8 +37,6 @@ public class Controller {
     public TableColumn actionChangedId;
 
     public TableView<CompressionData> tableCompression;
-    public ComboBox cellName;
-    public ComboBox dataCell;
 
 
     private Controller controllerParent;
@@ -75,16 +73,6 @@ public class Controller {
         verticalStrainId.setCellValueFactory(new PropertyValueFactory<CompressionData, Double>("VerticalStrain"));
         tarDeformationId.setCellValueFactory(new PropertyValueFactory<CompressionData, Double>("TarDeformation_mm"));
         stageId.setCellValueFactory(new PropertyValueFactory<CompressionData, String>("Stage"));
-
-
-        //НИЖЕ УСТАРЕЛО
-        ObservableList<String> cellNames = FXCollections.observableArrayList("Action", "Action_Changed", "Stage");
-        ObservableList<String> dataCellAction = FXCollections.observableArrayList("Start", "LoadStage", "NULL");
-        ObservableList<String> dataCellAction_Changed = FXCollections.observableArrayList("True", "False", "NULL");
-        ObservableList<String> dataCellStage = FXCollections.observableArrayList("Пуск", "Компрессионное");
-
-         cellName.setItems(cellNames);
-         dataCell.setItems(dataCellAction);
     }
 
     //Метод обновления таблицы после фильтрации
@@ -131,7 +119,7 @@ public class Controller {
             Stage st = new Stage();
             st.setResizable(false);
             st.setTitle("Фильтр");
-            st.setScene(new Scene(root, 697, 247));
+            st.setScene(new Scene(root, 697, 354));
             filterDataController=fxmlLoader.getController();
             filterDataController.setControllerParent(this);
           //  filterDataController.sendData(compressionDataArrayList); // передаём туда данные
@@ -142,27 +130,5 @@ public class Controller {
         }
     }
 
-    //Метод фильтрации -УСТАРЕЛ
-    public void filterss(ActionEvent event) {
-          ArrayList<CompressionData> compressionDataArrayList22 = new ArrayList<CompressionData>();
-          String cellName1;
-          String dataCell1;
-        cellName1= (String) cellName.getValue();
-        dataCell1= (String) dataCell.getValue();
-        System.out.println(cellName1);
-        System.out.println(dataCell1);
-
-        for(int i=0;i<compressionDataArrayList.size();i++) {
-            if(dataCell1.equals(compressionDataArrayList.get(i).getAction())){
-                compressionDataArrayList22.add(compressionDataArrayList.get(i));
-            }
-        }
-        for(int i=0;i<compressionDataArrayList22.size();i++) {
-            System.out.println(compressionDataArrayList22.get(i).outDataCompr());
-        }
-        tableCompression.getItems().clear();
-        compressionDataObservableList= FXCollections.observableArrayList(compressionDataArrayList22);
-        tableCompression.setItems(compressionDataObservableList);
-        }
     }
 
