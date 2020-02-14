@@ -41,11 +41,14 @@ public class Controller {
 
     private Controller controllerParent;
     private FilterDataController filterDataController;
+    private DataTestReportController dataTestReportController;
 
 
     private ArrayList<CompressionData> compressionDataArrayList;
     private ObservableList<CompressionData> compressionDataObservableList;
     private ArrayList<CompressionData> compressionDataArrayListFilter;
+
+    private ReportData reportData =new ReportData();
 
     //Геттеры сеттеры для получения ссылки на контроллеры
     public FilterDataController getFilterDataController(){
@@ -84,6 +87,12 @@ public class Controller {
         tableCompression.refresh();
     }
 
+    public void sendReportData(ReportData reportDataa){
+        reportData=reportDataa;
+        System.out.println("НИЖЕ то что передали НАЗАД В ГЛАВНЫЙ КОНТРОЛЛЕР ИЗ РЕПОРТ_ДАТЫ:");
+            System.out.println(reportData.outDataReport());
+
+    }
     //Метод получение ОТФИЛЬТРОВАННЫХ данных из FilterData
     public void sendDataController(ArrayList<CompressionData> compressionData){
         compressionDataArrayListFilter=compressionData;
@@ -130,5 +139,20 @@ public class Controller {
         }
     }
 
+
+    //Метод вызова окна данных для отчета, передачи в другой контроллер данных
+    public void settingDataReport(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dataReport.fxml"));
+        Parent root = fxmlLoader.load();
+        Stage st = new Stage();
+        st.setResizable(false);
+        st.setTitle("Заполните данные для отчета об испытании");
+        st.setScene(new Scene(root, 450, 500));
+        dataTestReportController=fxmlLoader.getController();
+        dataTestReportController.setControllerParent(this);
+        dataTestReportController.initialize(reportData);
+        st.show();
+
     }
+}
 

@@ -46,5 +46,6 @@
         </menus>
       </MenuBar>
       <Button layoutX="282.0" layoutY="27.0" mnemonicParsing="false" onAction="#getFilterCompressionData" prefHeight="25.0" prefWidth="96.0" text="Фильтрация" />
+      <Button layoutX="396.0" layoutY="27.0" mnemonicParsing="false" onAction="#settingDataReport" prefHeight="25.0" prefWidth="167.0" text="Заполнить данные отчета" />
    </children>
 </AnchorPane>

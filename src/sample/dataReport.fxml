@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.DataTestReportController">
+   <children>
+      <TextField fx:id="labNomer" layoutX="200.0" layoutY="25.0" prefHeight="25.0" prefWidth="236.0" />
+      <TextField fx:id="objk" layoutX="200.0" layoutY="65.0" prefHeight="25.0" prefWidth="236.0" />
+      <TextField fx:id="nameVyrab" layoutX="200.0" layoutY="102.0" prefHeight="25.0" prefWidth="236.0" />
+      <TextField fx:id="nameSoil" layoutX="200.0" layoutY="143.0" prefHeight="25.0" prefWidth="236.0" />
+      <TextField fx:id="shemaTest" layoutX="200.0" layoutY="189.0" prefHeight="25.0" prefWidth="236.0" />
+      <TextField fx:id="conditionSoil" layoutX="200.0" layoutY="235.0" prefHeight="25.0" prefWidth="236.0" />
+      <TextField fx:id="customerName" layoutX="200.0" layoutY="277.0" prefHeight="25.0" prefWidth="236.0" />
+      <TextField fx:id="depthSelection" layoutX="200.0" layoutY="318.0" prefHeight="25.0" prefWidth="236.0" />
+      <TextField fx:id="equipment" layoutX="200.0" layoutY="358.0" prefHeight="25.0" prefWidth="236.0" />
+      <Label layoutX="29.0" layoutY="29.0" text="Лабораторный номер:" />
+      <Label layoutX="29.0" layoutY="69.0" text="Объект:" />
+      <Label layoutX="29.0" layoutY="106.0" text="Наименование выработки:" />
+      <Label layoutX="29.0" layoutY="147.0" text="Наименование грунта:" />
+      <Label layoutX="29.0" layoutY="193.0" text="Схема проведения испытания:" />
+      <Label layoutX="29.0" layoutY="239.0" text="Состояние грунта:" />
+      <Label layoutX="29.0" layoutY="281.0" text="Заказчик:" />
+      <Label layoutX="29.0" layoutY="322.0" text="Глубина отбора:" />
+      <Label layoutX="29.0" layoutY="362.0" text="Оборудование:" />
+      <Button layoutX="25.0" layoutY="461.0" mnemonicParsing="false" onAction="#getClear" prefHeight="25.0" prefWidth="70.0" text="Очистить" />
+      <Button layoutX="283.0" layoutY="461.0" mnemonicParsing="false" onAction="#getOk" prefHeight="25.0" prefWidth="70.0" text="Ок" />
+      <Button fx:id="butClose" layoutX="366.0" layoutY="461.0" mnemonicParsing="false" onAction="#getCancel" prefHeight="25.0" prefWidth="70.0" text="Отмена" />
+   </children>
+</AnchorPane>
