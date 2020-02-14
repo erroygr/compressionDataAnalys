@@ -430,6 +430,9 @@ public class FilterDataController {
             }
 
             compresArrayListFilter1 = filterDataStrategy1.goFilterData();
+            for(int i=0;i<compresArrayListFilter1.size();i++){
+                System.out.println(compresArrayListFilter1.get(i).outDataCompr());
+            }
         }
         if(nameColumn2!=null) {
             if (nameColumn2 == "Time") {
@@ -598,6 +601,7 @@ public class FilterDataController {
         }
 
 
+
         if(nameOperator1!=null) {
             if (nameOperator1 == "И") {
                 Set<CompressionData> set1 = new HashSet<>(compresArrayListFilter1);
@@ -613,6 +617,10 @@ public class FilterDataController {
                 compressionDataArrayListFilter.clear();
                 compressionDataArrayListFilter.addAll(set1);
             }
+        } else {
+            Set<CompressionData> set1 = new HashSet<>(compresArrayListFilter1);
+            compressionDataArrayListFilter.clear();
+            compressionDataArrayListFilter.addAll(set1);
         }
 
         System.out.println("ФИЛЬТРАЦИЯ 1 и 2: Условие "+nameOperator1 +" Столбец1 "+nameColumn1+" Столбец2 "+nameColumn2
