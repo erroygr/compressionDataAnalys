@@ -1,6 +1,9 @@
 package CompressionData;
 
-public class CompressionData {
+import java.util.Comparator;
+import java.util.function.ToDoubleFunction;
+
+public class CompressionData implements Comparable<CompressionData> {
 
     private double Time;
     private String Action;
@@ -152,5 +155,18 @@ public class CompressionData {
                 " " + getTarDeformation_mm()+
                 " " + getStage();
     }
+
+    @Override
+    public int compareTo(CompressionData o) {
+        return (int) (this.Time - o.Time);
+    }
+
+    public static Comparator<CompressionData> TimeComparator = new Comparator<CompressionData>() {
+        @Override
+        public int compare(CompressionData o1, CompressionData o2) {
+            return (int) (o1.getTime() - o2.getTime());
+        }
+
+    };
 
 }

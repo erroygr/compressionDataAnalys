@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="com.innoventsolutions.birt.runtime:org.apache.poi_3.9.0.v201405241750:4.8.0" level="project" />
   </component>
 </module>

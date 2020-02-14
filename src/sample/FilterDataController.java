@@ -12,8 +12,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static CompressionData.CompressionData.*;
+import static CompressionData.CompressionData.TimeComparator;
 
 public class FilterDataController {
 
@@ -707,6 +711,8 @@ public class FilterDataController {
             alert.showAndWait();
             return;
         } else {
+
+            compressionDataArrayListFilter.sort(TimeComparator);
             controllerParent.getControllerParent(); // получаем контроллер
             controllerParent.sendDataController(compressionDataArrayListFilter);
         }

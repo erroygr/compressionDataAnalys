@@ -43,6 +43,11 @@
               <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Занести данные в отчет" >
+                <items>
+                    <MenuItem mnemonicParsing="false" text="Занести" onAction="#createReport" />
+                </items>
+            </Menu>
         </menus>
       </MenuBar>
       <Button layoutX="282.0" layoutY="27.0" mnemonicParsing="false" onAction="#getFilterCompressionData" prefHeight="25.0" prefWidth="96.0" text="Фильтрация" />
