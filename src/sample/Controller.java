@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 import javafx.scene.control.Alert;
+import javafx.stage.Window;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -32,7 +34,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 
-public class Controller {
+public class Controller extends Window {
     public TextField textFileBIO;
     public AnchorPane archBIO;
 
@@ -115,14 +117,28 @@ public class Controller {
         init();
     }
 
-    //Метод загрузки файла - забиндин на один файл --доработать для выбора пользователем файла
+    //Метод загрузки файла - доработан!
     public void loadfile(ActionEvent event) throws IOException {
-        String filePath = "Test.1.log";
-        Scanner scanner = new Scanner(new File(filePath));
-        ReadFromFile readFromFile = new ReadFromFile(scanner);
-        compressionDataArrayList =  readFromFile.parserToCompressionData();
-        compressionDataObservableList= FXCollections.observableArrayList(compressionDataArrayList);
-         tableCompression.setItems(compressionDataObservableList);
+        //String filePath=null;
+        FileChooser fileChooser = new FileChooser();//Класс работы с диалогом выборки и сохранения
+        fileChooser.setTitle("Выбор файла с данными");//Заголовок диалога
+        FileChooser.ExtensionFilter extFilter =
+                new FileChooser.ExtensionFilter("Log files (*.log)", "*.log");//Расширение
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(this);//Указываем текущую сцену
+        if (file != null) {
+           //  filePath = file.getName();
+            System.out.println("Процесс открытия файла. ФАЙЛ:"+file);
+           // System.out.println(filePath);
+            Scanner scanner = new Scanner(file);
+            ReadFromFile readFromFile = new ReadFromFile(scanner);
+            compressionDataArrayList =  readFromFile.parserToCompressionData();
+            compressionDataObservableList= FXCollections.observableArrayList(compressionDataArrayList);
+            tableCompression.setItems(compressionDataObservableList);
+        }
+
+       // String filePath = "Test.1.log";
+
     }
 
     //Метод вызова окна фильтрации, передачи в другой контроллер данных
