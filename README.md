@@ -24,7 +24,7 @@ https://ru.stackoverflow.com/questions/591536/%D0%A7%D1%82%D0%BE-%D0%B7%D0%B0-%D
 
 4)Вставка данных о испытании в отчет (+++)
 
-5)Выбор файла пользователем с расширением .log
+5)Выбор файла пользователем с расширением .log (+++)  https://websofter.ru/dialogowoe-okno-otkrytiya-i-sokhraneniya-faila-v-javafx/
 
 ------> Готовый прототип..... ЕСТЬ!
 
