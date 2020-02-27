@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MenuController">
+   <children>
+      <Button layoutX="33.0" layoutY="98.0" mnemonicParsing="false" onAction="#goToCompression" prefHeight="65.0" prefWidth="185.0" text="Компрессионное &#10;испытание">
+         <font>
+            <Font name="Times New Roman" size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="268.0" layoutY="98.0" mnemonicParsing="false" onAction="#goToCompressionSlump" prefHeight="65.0" prefWidth="185.0" text="Компрессионное &#10;испытание с просадкой">
+         <font>
+            <Font name="Times New Roman" size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="64.0" layoutY="27.0" prefHeight="65.0" prefWidth="373.0" text="Выберете испытание">
+         <font>
+            <Font name="Times New Roman" size="39.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

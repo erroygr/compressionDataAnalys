@@ -86,70 +86,6 @@ public class FilterDataController {
         stage.close();
     }
 
-    //Метод получения данных из одного контроллера в другой (УСТАРЕЛА---Перешла в initialize)
-    public void sendData(ArrayList<CompressionData> compressionDataArrayList) {
-        dataCompression_=compressionDataArrayList;
-        System.out.println("НИЖЕ то что передали В КОНТРОЛЛЕР ФИЛЬТРА:");
-        for(int i=0;i<dataCompression_.size();i++) {
-            System.out.println(dataCompression_.get(i).outDataCompr());
-        }
-
-
-
-    }
-    //Метод для инициализации комбобоксов и обновления (УСТАРЕЛА---Перешла в initialize)
-    public void initComboBox(){
-        ArrayList<String> arrTime = new ArrayList<>();
-        ArrayList<String> arrAction = new ArrayList<>();
-        ArrayList<String> arrAction_Cha = new ArrayList<>();
-        ArrayList<String> arrVerticalPress_k = new ArrayList<>();
-        ArrayList<String> arrPorePress_kPa = new ArrayList<>();
-        ArrayList<String> arrVerticalDeformation_mm = new ArrayList<>();
-        ArrayList<String> arrVerticalPress_MPa = new ArrayList<>();
-        ArrayList<String> arrPorePress_MPa = new ArrayList<>();
-        ArrayList<String> arrVerticalStrain = new ArrayList<>();
-        ArrayList<String> arrTarDeformation_mm = new ArrayList<>();
-        ArrayList<String> arrStage = new ArrayList<>();
-
-        for(int i=0;i<dataCompression_.size();i++) {
-            arrTime.add(String.valueOf(dataCompression_.get(i).getTime()));
-            arrAction.add(String.valueOf(dataCompression_.get(i).getAction()));
-            arrAction_Cha.add(String.valueOf(dataCompression_.get(i).getAction_Changed()));
-            arrVerticalPress_k.add(String.valueOf(dataCompression_.get(i).getVerticalPress_kPa()));
-            arrPorePress_kPa.add(String.valueOf(dataCompression_.get(i).getPorePress_kPa()));
-            arrVerticalDeformation_mm.add(String.valueOf(dataCompression_.get(i).getVerticalDeformation_mm()));
-            arrVerticalPress_MPa.add(String.valueOf(dataCompression_.get(i).getVerticalPress_MPa()));
-            arrPorePress_MPa.add(String.valueOf(dataCompression_.get(i).getPorePress_MPa()));
-            arrVerticalStrain.add(String.valueOf(dataCompression_.get(i).getVerticalStrain()));
-            arrTarDeformation_mm.add(String.valueOf(dataCompression_.get(i).getTarDeformation_mm()));
-            arrStage.add(String.valueOf(dataCompression_.get(i).getStage()));
-        }
-
-        Map<String, List<String>> valueNameColumn = new HashMap<>();
-        valueNameColumn.put("Time", arrTime);
-        valueNameColumn.put("Action", arrAction);
-        valueNameColumn.put("Action_Changed", arrAction_Cha);
-        valueNameColumn.put("VerticalPress_kPa", arrVerticalPress_k);
-        valueNameColumn.put("PorePress_kPa", arrPorePress_kPa);
-        valueNameColumn.put("VerticalDeformation_mm", arrVerticalDeformation_mm);
-        valueNameColumn.put("VerticalPress_MPa", arrVerticalPress_MPa);
-        valueNameColumn.put("PorePress_MPa", arrPorePress_MPa);
-        valueNameColumn.put("VerticalStrain", arrVerticalStrain);
-        valueNameColumn.put("TarDeformation_mm", arrTarDeformation_mm);
-        valueNameColumn.put("Stage", arrStage);
-
-        idName1.valueProperty().addListener(((observable, oldValue, newValue) -> {
-            List<String> list = valueNameColumn.get(newValue);
-            if(list !=null){
-                idValue1.setDisable(false);
-                idValue1.getItems().setAll(list);
-            }else {
-                idValue1.getItems().clear();
-                idValue1.setDisable(true);
-            }
-        }));
-    }
-
     //Метод удаления повторок в списках полученных данных
     public ArrayList deleteRepeat(ArrayList<String> array){
        return (ArrayList) array.stream().distinct().collect(Collectors.toList());
@@ -711,16 +647,49 @@ public class FilterDataController {
             alert.showAndWait();
             return;
         } else {
-
             compressionDataArrayListFilter.sort(TimeComparator);
             controllerParent.getControllerParent(); // получаем контроллер
             controllerParent.sendDataController(compressionDataArrayListFilter);
         }
-
         Stage stage = (Stage) butClose.getScene().getWindow();
         stage.close();
+    }
 
+    public void fastFilter(){
 
+        String nameColumn1 = "Action_Changed";
+        String nameCondition1 = "=";
+        String nameValue1 ="True";
+        String nameColumn2 = "Action";
+        String nameCondition2 = "=";
+        String nameValue2 ="Stabilization";
+
+        ArrayList<CompressionData> compresListFilter1;
+        ArrayList<CompressionData> compresListFilter2;
+
+        FilterDataStrategy filter1 = new FilterDataActionChangedStrategy(dataCompression_, nameColumn1, nameCondition1, nameValue1);
+        FilterDataStrategy filter2 = new FilterDataActionStrategy(dataCompression_, nameColumn2, nameCondition2, nameValue2);
+
+        compresListFilter1 = filter1.goFilterData();
+        compresListFilter2 = filter2.goFilterData();
+
+        Set<CompressionData> set1 = new HashSet<>(compresListFilter1);
+        Set<CompressionData> set2 = new HashSet<>(compresListFilter2);
+        set1.retainAll(set2);
+        ArrayList<CompressionData> rezultCompressionListFilter = new ArrayList<CompressionData>(set1);
+
+        if (rezultCompressionListFilter.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Предупреждение: ");
+            alert.setHeaderText(null);
+            alert.setContentText("Фильтрация потерпела неудачу. Ошибка в загруженных данных.");
+            alert.showAndWait();
+            return;
+        } else {
+            rezultCompressionListFilter.sort(TimeComparator);
+            controllerParent.getControllerParent(); // получаем контроллер
+            controllerParent.sendDataController(rezultCompressionListFilter);
+        }
     }
 
 

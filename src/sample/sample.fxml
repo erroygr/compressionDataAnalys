@@ -5,7 +5,6 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <TextField fx:id="textFileBIO" layoutX="14.0" layoutY="27.0" prefHeight="25.0" prefWidth="256.0" />
       <AnchorPane fx:id="archBIO" layoutX="7.0" layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="994.0">
          <children>
             <TableView fx:id="tableCompression" prefHeight="500.0" prefWidth="994.0">
@@ -43,14 +42,15 @@
               <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Занести данные в отчет" >
+            <Menu mnemonicParsing="false" text="Занести данные в отчет">
                 <items>
-                    <MenuItem mnemonicParsing="false" text="Занести" onAction="#createReport" />
+                    <MenuItem mnemonicParsing="false" onAction="#createReport" text="Занести" />
                 </items>
             </Menu>
         </menus>
       </MenuBar>
-      <Button layoutX="282.0" layoutY="27.0" mnemonicParsing="false" onAction="#getFilterCompressionData" prefHeight="25.0" prefWidth="96.0" text="Фильтрация" />
-      <Button layoutX="396.0" layoutY="27.0" mnemonicParsing="false" onAction="#settingDataReport" prefHeight="25.0" prefWidth="167.0" text="Заполнить данные отчета" />
+      <Button layoutX="164.0" layoutY="34.0" mnemonicParsing="false" onAction="#getFilterCompressionData" prefHeight="25.0" prefWidth="96.0" text="Фильтрация" />
+      <Button layoutX="271.0" layoutY="34.0" mnemonicParsing="false" onAction="#settingDataReport" prefHeight="25.0" prefWidth="167.0" text="Заполнить данные отчета" />
+      <Button layoutX="14.0" layoutY="34.0" mnemonicParsing="false" onAction="#FastFilter" prefHeight="25.0" prefWidth="138.0" text="Быстрая Фильтрация" />
    </children>
 </AnchorPane>

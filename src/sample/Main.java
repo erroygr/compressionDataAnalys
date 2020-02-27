@@ -8,12 +8,16 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    public static Stage stage;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Анализ компрессионного сжатия");
-        primaryStage.setScene(new Scene(root, 1000, 600));
+        Parent root = FXMLLoader.load(getClass().getResource("menuController.fxml"));
+        primaryStage.setTitle("Обработка комрессионных испытаний");
+        primaryStage.setScene(new Scene(root, 500, 200));
         primaryStage.show();
+
+        stage = primaryStage;
     }
 
 

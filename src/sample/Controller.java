@@ -56,7 +56,7 @@ public class Controller extends Window {
     private Controller controllerParent;
     private FilterDataController filterDataController;
     private DataTestReportController dataTestReportController;
-
+    private String fileNames;
 
     private ArrayList<CompressionData> compressionDataArrayList;
     private ObservableList<CompressionData> compressionDataObservableList;
@@ -127,7 +127,7 @@ public class Controller extends Window {
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showOpenDialog(this);//Указываем текущую сцену
         if (file != null) {
-           //  filePath = file.getName();
+            fileNames = file.getName();
             System.out.println("Процесс открытия файла. ФАЙЛ:"+file);
            // System.out.println(filePath);
             Scanner scanner = new Scanner(file);
@@ -254,7 +254,8 @@ public class Controller extends Window {
         Date date = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd'_'hh-mm");
         // получаем доступ к excel файлу и обновляем его
-        try (FileOutputStream out = new FileOutputStream(new File("C:\\Users\\Egor\\Desktop\\Report_"+formatForDateNow.format(date)+".xls"))) {
+        try (FileOutputStream out = new FileOutputStream(new File("C:\\Users\\Egor\\Desktop\\ГТ 7.1.1 Компрессионное сжатие ГОСТ"
+                        +formatForDateNow.format(date)+".xls"))) {
             workbook.write(out);
         } catch (IOException e) {
             e.printStackTrace();
@@ -277,6 +278,28 @@ public class Controller extends Window {
         row.createCell(9).setCellValue(compressionData.getVerticalStrain());
         row.createCell(10).setCellValue(compressionData.getTarDeformation_mm());
         row.createCell(11).setCellValue(compressionData.getStage());
+    }
+
+    public void FastFilter(ActionEvent event) throws IOException {
+        if (compressionDataObservableList==null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Предупреждение: ");
+            alert.setHeaderText(null);
+            alert.setContentText("Файл не был загружен.");
+            alert.showAndWait();
+            return;
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("filterData.fxml"));
+            Parent root = fxmlLoader.load();
+            filterDataController=fxmlLoader.getController();
+            filterDataController.setControllerParent(this);
+            filterDataController.initialize(compressionDataArrayList);
+            filterDataController.fastFilter();
+
+
+        }
+
+
     }
 }
 
