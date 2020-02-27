@@ -30,7 +30,7 @@ public class MenuController {
 
         Main.stage.close();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ControllerCompressionSlump.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

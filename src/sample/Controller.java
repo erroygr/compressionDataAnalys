@@ -119,7 +119,6 @@ public class Controller extends Window {
 
     //Метод загрузки файла - доработан!
     public void loadfile(ActionEvent event) throws IOException {
-        //String filePath=null;
         FileChooser fileChooser = new FileChooser();//Класс работы с диалогом выборки и сохранения
         fileChooser.setTitle("Выбор файла с данными");//Заголовок диалога
         FileChooser.ExtensionFilter extFilter =
@@ -129,15 +128,12 @@ public class Controller extends Window {
         if (file != null) {
             fileNames = file.getName();
             System.out.println("Процесс открытия файла. ФАЙЛ:"+file);
-           // System.out.println(filePath);
             Scanner scanner = new Scanner(file);
             ReadFromFile readFromFile = new ReadFromFile(scanner);
             compressionDataArrayList =  readFromFile.parserToCompressionData();
             compressionDataObservableList= FXCollections.observableArrayList(compressionDataArrayList);
             tableCompression.setItems(compressionDataObservableList);
         }
-
-       // String filePath = "Test.1.log";
 
     }
 

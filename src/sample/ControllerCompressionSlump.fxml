@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerCompressionSlump">
+
+    <TableView fx:id="tableCompression1" layoutY="87.0" prefHeight="411.0" prefWidth="500.0">
+    <columns>
+        <TableColumn fx:id="timeId1" prefWidth="43.0" text="Time" />
+        <TableColumn fx:id="actionId1" prefWidth="63.0" text="Action" />
+        <TableColumn fx:id="actionChangedId1" prefWidth="100.0" text="Action_Changed" />
+        <TableColumn fx:id="verticalPressKPAId1" prefWidth="109.0" text="VerticalPress_kPa" />
+        <TableColumn fx:id="porePressKPAId1" prefWidth="72.0" text="PorePress_kPa" />
+        <TableColumn fx:id="varticalDeformationId1" prefWidth="121.0" text="VerticalDeformation_mm" />
+        <TableColumn fx:id="verticalpressMPaId1" prefWidth="108.0" text="VerticalPress_MPa" />
+        <TableColumn fx:id="porepressMPaId1" prefWidth="96.0" text="PorePress_MPa" />
+        <TableColumn fx:id="verticalStrainId1" prefWidth="89.0" text="VerticalStrain" />
+        <TableColumn fx:id="tarDeformationId1" prefWidth="130.0" text="TarDeformation_mm" />
+        <TableColumn fx:id="stageId1" minWidth="0.0" prefWidth="62.0" text="Stage" />
+    </columns>
+</TableView>
+
+    <TableView fx:id="tableCompression2" layoutX="500.0" layoutY="87.0" prefHeight="411.0" prefWidth="500.0">
+        <columns>
+            <TableColumn fx:id="timeId2" prefWidth="43.0" text="Time" />
+            <TableColumn fx:id="actionId2" prefWidth="63.0" text="Action" />
+            <TableColumn fx:id="actionChangedId2" prefWidth="100.0" text="Action_Changed" />
+            <TableColumn fx:id="verticalPressKPAId2" prefWidth="109.0" text="VerticalPress_kPa" />
+            <TableColumn fx:id="porePressKPAId2" prefWidth="72.0" text="PorePress_kPa" />
+            <TableColumn fx:id="varticalDeformationId2" prefWidth="121.0" text="VerticalDeformation_mm" />
+            <TableColumn fx:id="verticalpressMPaId2" prefWidth="108.0" text="VerticalPress_MPa" />
+            <TableColumn fx:id="porepressMPaId2" prefWidth="96.0" text="PorePress_MPa" />
+            <TableColumn fx:id="verticalStrainId2" prefWidth="89.0" text="VerticalStrain" />
+            <TableColumn fx:id="tarDeformationId2" prefWidth="130.0" text="TarDeformation_mm" />
+            <TableColumn fx:id="stageId2" minWidth="0.0" prefWidth="62.0" text="Stage" />
+        </columns>
+    </TableView>
+   <Button layoutX="14.0" layoutY="37.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="133.0" onAction="#loadfile1" text="Загрузить файл №1" />
+   <Button layoutX="500.0" layoutY="37.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="133.0" onAction="#loadfile2" text="Загрузить файл №2" />
+   <Button layoutX="157.0" layoutY="37.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="200.0" onAction="#FastFilter1" text="Быстрая фильтрация файла № 1" />
+   <Button layoutX="646.0" layoutY="37.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="194.0" onAction="#FastFilter2" text="Быстрая фильтрация файла № 2" />
+   <MenuBar layoutX="-1.0" layoutY="1.0" prefHeight="25.0" prefWidth="1000.0">
+     <menus>
+       <Menu mnemonicParsing="false" text="Подготовка отчета">
+         <items>
+           <MenuItem mnemonicParsing="false" text="Заполнить данные отчета" onAction="#settingDataReport"/>
+           <MenuItem mnemonicParsing="false" text="Занести данные в отчет" onAction="#createReport" />
+         </items>
+       </Menu>
+
+       <Menu mnemonicParsing="false" text="О программе">
+         <items>
+           <MenuItem mnemonicParsing="false" text="About" />
+         </items>
+       </Menu>
+     </menus>
+   </MenuBar>
+
+</AnchorPane>

@@ -51,6 +51,7 @@ public class FilterDataController {
 
     private  ArrayList<CompressionData> dataCompression_;
     private Controller controllerParent;
+    private ControllerCompressionSlump controllerParentSlump;
     private FilterDataController filterDataController;
 
 
@@ -66,7 +67,16 @@ public class FilterDataController {
     ArrayList<String> arrTarDeformation_mm = new ArrayList<>();
     ArrayList<String> arrStage = new ArrayList<>();
 
-    //Геттер и сеттер для ссылки на контроллер родителя
+    //Геттер и сеттер для ссылки на контроллер родителя 2
+    public ControllerCompressionSlump getControllerParentSlump() {
+        return controllerParentSlump;
+    }
+
+    public void setControllerParentSlump(ControllerCompressionSlump controllerParent) {
+        this.controllerParentSlump = controllerParent;
+    }
+
+    //Геттер и сеттер для ссылки на контроллер родителя 1
     public Controller getControllerParent() {
         return controllerParent;
     }
@@ -689,6 +699,81 @@ public class FilterDataController {
             rezultCompressionListFilter.sort(TimeComparator);
             controllerParent.getControllerParent(); // получаем контроллер
             controllerParent.sendDataController(rezultCompressionListFilter);
+        }
+    }
+
+    public void fastFilterSlump1(){
+
+        String nameColumn1 = "Action_Changed";
+        String nameCondition1 = "=";
+        String nameValue1 ="True";
+        String nameColumn2 = "Action";
+        String nameCondition2 = "=";
+        String nameValue2 ="Stabilization";
+
+        ArrayList<CompressionData> compresListFilter1;
+        ArrayList<CompressionData> compresListFilter2;
+
+        FilterDataStrategy filter1 = new FilterDataActionChangedStrategy(dataCompression_, nameColumn1, nameCondition1, nameValue1);
+        FilterDataStrategy filter2 = new FilterDataActionStrategy(dataCompression_, nameColumn2, nameCondition2, nameValue2);
+
+        compresListFilter1 = filter1.goFilterData();
+        compresListFilter2 = filter2.goFilterData();
+
+        Set<CompressionData> set1 = new HashSet<>(compresListFilter1);
+        Set<CompressionData> set2 = new HashSet<>(compresListFilter2);
+        set1.retainAll(set2);
+        ArrayList<CompressionData> rezultCompressionListFilter = new ArrayList<CompressionData>(set1);
+
+        if (rezultCompressionListFilter.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Предупреждение: ");
+            alert.setHeaderText(null);
+            alert.setContentText("Фильтрация потерпела неудачу. Ошибка в загруженных данных.");
+            alert.showAndWait();
+            return;
+        } else {
+            rezultCompressionListFilter.sort(TimeComparator);
+            controllerParentSlump.getControllerParent(); // получаем контроллер
+            controllerParentSlump.sendDataController1(rezultCompressionListFilter);
+        }
+    }
+
+
+    public void fastFilterSlump2(){
+
+        String nameColumn1 = "Action_Changed";
+        String nameCondition1 = "=";
+        String nameValue1 ="True";
+        String nameColumn2 = "Action";
+        String nameCondition2 = "=";
+        String nameValue2 ="Stabilization";
+
+        ArrayList<CompressionData> compresListFilter1;
+        ArrayList<CompressionData> compresListFilter2;
+
+        FilterDataStrategy filter1 = new FilterDataActionChangedStrategy(dataCompression_, nameColumn1, nameCondition1, nameValue1);
+        FilterDataStrategy filter2 = new FilterDataActionStrategy(dataCompression_, nameColumn2, nameCondition2, nameValue2);
+
+        compresListFilter1 = filter1.goFilterData();
+        compresListFilter2 = filter2.goFilterData();
+
+        Set<CompressionData> set1 = new HashSet<>(compresListFilter1);
+        Set<CompressionData> set2 = new HashSet<>(compresListFilter2);
+        set1.retainAll(set2);
+        ArrayList<CompressionData> rezultCompressionListFilter = new ArrayList<CompressionData>(set1);
+
+        if (rezultCompressionListFilter.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Предупреждение: ");
+            alert.setHeaderText(null);
+            alert.setContentText("Фильтрация потерпела неудачу. Ошибка в загруженных данных.");
+            alert.showAndWait();
+            return;
+        } else {
+            rezultCompressionListFilter.sort(TimeComparator);
+            controllerParentSlump.getControllerParent(); // получаем контроллер
+            controllerParentSlump.sendDataController2(rezultCompressionListFilter);
         }
     }
 

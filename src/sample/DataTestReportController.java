@@ -26,10 +26,20 @@ public class DataTestReportController {
     private ReportData reportData_;
 
     private Controller controllerParent;
+    private ControllerCompressionSlump compressionSlump;
     private DataTestReportController dataTestReportController;
 
+    //Геттер и сеттер для ссылки на контроллер 1
+    public ControllerCompressionSlump getControllerParentSlump() {
+        return compressionSlump;
+    }
 
-    //Геттер и сеттер для ссылки на контроллер родителя
+    public void setControllerParentSlump(ControllerCompressionSlump controllerParent) {
+        //controllerParent.setControllerParent(controllerParent);
+        this.compressionSlump = controllerParent;
+    }
+
+    //Геттер и сеттер для ссылки на контроллер 1
     public Controller getControllerParent() {
         return controllerParent;
     }
@@ -62,9 +72,6 @@ public class DataTestReportController {
         reportData_.setDepthSelection(depthSelection.getText());
         reportData_.setEquipment(equipment.getText());
 
-
-
-
         if (reportData_ == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Предупреждение: ");
@@ -72,10 +79,14 @@ public class DataTestReportController {
             alert.setContentText("Пусто.");
             alert.showAndWait();
             return;
-        } else {
+        } else if(controllerParent!=null) {
             controllerParent.getControllerParent(); // получаем контроллер
             controllerParent.sendReportData(reportData_);
-        }
+        } else{
+            compressionSlump.getControllerParent(); // получаем контроллер
+            compressionSlump.sendReportData(reportData_);
+            }
+
 
         Stage stage = (Stage) butClose.getScene().getWindow();
         stage.close();
